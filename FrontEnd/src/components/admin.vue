@@ -58,7 +58,7 @@
 
 <el-submenu index="5">
 	<template slot="title">合作管理</template>
-	<router-link to="/admin/order-list">
+	<router-link to="/admin/parter-list">
 		<el-menu-item index="5-1">合作列表</el-menu-item>
 	</router-link>
 

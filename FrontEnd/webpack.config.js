@@ -88,7 +88,7 @@ module.exports = {
 	devServer: {
 		port: 9001,
 		historyApiFallback: true,
-                disableHostCheck: true,
+		disableHostCheck: true,
 		stats: 'minimal', // 输入精简信息
 		overlay: true, // 将错误显示在html之上
 		proxy: {

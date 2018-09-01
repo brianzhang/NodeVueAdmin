@@ -44,19 +44,16 @@
                 label="商品名">
             </el-table-column>
 
-			
-			   <el-table-column
-                label="小游戏ID">
-                <template scope="scope">
-                    {{ scope.row.goods_price }}
-                </template>
-</el-table-column>
-
-<el-table-column prop="goods_typename" label="类型">
-</el-table-column>
-
-<el-table-column prop="goods_details" label="详情">
-</el-table-column>
+					<el-table-column prop="app_id" label="APPID"></el-table-column>
+			   <el-table-column label="分成">
+						<template scope="scope">
+								{{ scope.row.goods_price }}
+						</template>
+				</el-table-column>
+				<el-table-column prop="goods_typename" label="类型"></el-table-column>
+				<el-table-column prop="parter_name" label="合作商"></el-table-column>
+				<el-table-column prop="run_count" label="启动次数"></el-table-column>
+				<el-table-column prop="goods_details" label="详情"></el-table-column>
 
 
 
@@ -74,12 +71,12 @@
 	<template scope="scope">
                     <el-button
                         size="small"
-                        @click="editGoods(scope.row)">修改商品
+                        @click="editGoods(scope.row)">修改
                     </el-button>
                     <el-button
                         size="small"
                         type="danger"
-                        @click="handleDelete(scope.row)">删除商品
+                        @click="handleDelete(scope.row)">删除
                     </el-button>
                 </template>
 </el-table-column>
@@ -88,7 +85,7 @@
 
 <div class="pagination">
 
-	<el-pagination @current-change="handleCurrentChange" layout="prev, pager, next" :total="500">
+	<el-pagination @current-change="handleCurrentChange" layout="prev, pager, next" :total="10">
 	</el-pagination>
 </div>
 

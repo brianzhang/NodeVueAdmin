@@ -110,11 +110,12 @@ module.exports = {
 	// 添加|更新 商品
 	addOne(req, res) {
 		let goods_id = req.body.goods_id;
-		console.log(goods_id);
 		let goods_name = req.body.goods_name;
+		let app_id = req.body.app_id;
 		let goods_price = req.body.goods_price;
 		let goods_type = req.body.goods_type;
 		let goods_typename = req.body.goods_typename;
+		let parter_name = req.body.parter_name;
 		let inventory = req.body.inventory;
 		
 		let imgs= req.body.imgs;	
@@ -124,22 +125,16 @@ module.exports = {
 
 	
 		let sql, arr;
-
-
-
+		arr = [goods_name, app_id, goods_price, inventory, goods_typename, parter_name, imgs, onsale, goods_details];
 		if (goods_id) {
 			// 更新
-			sql = 'UPDATE goods SET goods_name=?, goods_price=? ,goods_typename =? ,inventory =? ,imgs =?,onsale=?,goods_details =?  WHERE goods_id=?';
-			arr = [goods_name, goods_price, goods_typename, inventory,imgs,onsale, goods_details,goods_id];
+			sql = 'UPDATE goods SET goods_name=?, app_id=? ,goods_price=? ,inventory =? ,goods_typename =? ,parter_name=? ,imgs =?,onsale=?,goods_details =?  WHERE goods_id=?';
+			arr.push(goods_id)
 		} else {
 			// 新增
-			sql = 'INSERT INTO goods(goods_name, goods_price,goods_typename,inventory,imgs,onsale, goods_details) VALUES(?,?,?,?,?,?,?)';
-			arr = [goods_name, goods_price, goods_typename, inventory,imgs,onsale, goods_details];
-
+			sql = 'INSERT INTO goods(goods_name, app_id, goods_price, inventory, goods_typename, parter_name, imgs, onsale, goods_details) VALUES(?,?,?,?,?,?,?,?,?)';
 		}
-
-
-
+		
 		func.connPool(sql, arr, (err, rows) => {
 			res.json({
 				code: 200,
@@ -210,4 +205,44 @@ module.exports = {
 			});
 		}, res);
 	},
+
+	// 查询游戏启动日志
+	startLog (req, res) {
+		let cur_page =req.body.cur_page;
+    let goods_id =req.body.goods_id;
+    let sql, arr ,endLimit ,startLimit;
+
+    endLimit = cur_page *10;
+    startLimit =  endLimit -10;
+    
+    if(goods_id){
+      sql ='select * from run_logs where goods_id =? ';
+      arr = [goods_id];  
+    }else{
+      sql ='select * from run_logs limit ?, ?';
+      arr = [startLimit, endLimit];
+    }
+    func.connPool(sql, arr, (err, rows) => {
+			rows = formatData(rows);
+			res.json({
+				code: 200,
+				msg: 'ok',
+				resultList: rows
+			});
+		});
+	},
+
+	setStartLog (req, res) {
+		let goods_id = req.body.goods_id;
+		let members_id = req.body.members_id
+		let sql, arr;
+		sql = 'INSERT INTO run_logs(goods_id, members_id) VALUES(?,?)';
+		arr = [goods_id, members_id];
+		func.connPool(sql, arr, (err, rows) => {
+			res.json({
+				code: 200,
+				msg: 'done'
+			});
+		});
+	}
 };

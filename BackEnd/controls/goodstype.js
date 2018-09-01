@@ -4,8 +4,6 @@ let func = require('../sql/func');
 let path = require('path');
 
 
-
-
 function formatData(rows) {
 	return rows.map(row => {
 		let date = moment(row.create_time).format('YYYY-MM-DD');

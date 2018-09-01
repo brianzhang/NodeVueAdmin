@@ -20,8 +20,8 @@ import GoodsList from "../components/goods/goods-list.vue";
 import orderForm from "../components/order/order-form.vue";
 import orderList from "../components/order/order-list.vue";
 
-
-
+import parterList from "../components/parter/parter-list.vue";
+import parterForm from "../components/parter/parter-form.vue";
 
 Vue.use(Router);
 
@@ -69,12 +69,12 @@ export default new Router({
                     component: GoodsForm,
                 },
                 {
-                    path: '/admin/order-list',
-                    component: orderList,
+                    path: '/admin/parter-list',
+                    component: parterList,
                 },
                 {
-                    path: '/admin/order-form',
-                    component: orderForm,
+                    path: '/admin/parter-form',
+                    component: parterForm,
                 }
                
               

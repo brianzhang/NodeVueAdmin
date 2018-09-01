@@ -4,8 +4,6 @@ let func = require('../sql/func');
 let path = require('path');
 
 
-
-
 function formatData(rows) {
 	return rows.map(row => {
 		let date = moment(row.create_time).format('YYYY-MM-DD');
@@ -152,9 +150,37 @@ module.exports = {
 		});
 
 	},
+	// 查询用户用户授权日志
+	memberLog (req, res) {
+		let cur_page =req.body.cur_page;
+    let member_id =req.body.member_id;
+    let sql, arr ,endLimit ,startLimit;
 
-
-
+    endLimit = cur_page *10;
+    startLimit =  endLimit -10;
+    
+    if(member_id){
+      sql ='select * from login_logs where members_id =? ';
+      arr = [member_id];  
+    }else{
+      sql ='select * from login_logs limit ?, ?';
+      arr = [startLimit, endLimit];
+    }
+    func.connPool(sql, arr, (err, rows) => {
+			rows = formatData(rows);
+			res.json({
+				code: 200,
+				msg: 'ok',
+				resultList: rows
+			});
+		});
+	},
+	memberLogin (req, res) {
+		res.json({
+			code: 200,
+			msg: 'ok'
+		});
+	},
 	// 批量删除
 	deleteMulti(req, res) {
 		let member_id = req.body.member_id;

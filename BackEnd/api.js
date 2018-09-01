@@ -13,16 +13,14 @@ module.exports = {
     userAutoLogin: path + '/user/auto-login',
     userChangeRole: path + '/user/change-role',
 	
-	
-	
- // member
+    // member
     memberList: path + '/member/list',
     memberDetail: path + '/member/detail',
     memberDelete: path + '/member/delete',
     memberAdd: path + '/member/add',
     memberDeleteMulti: path + '/member/delete-multi',
     memberChangeRole: path + '/member/change-role',
-
+    memberLogin: path + '/member/login',
 	
 	 // goodstype
     goodstypeList: path + '/goodstype/list',
@@ -43,9 +41,6 @@ module.exports = {
     goodsDeleteMulti: path + '/goods/delete-multi',
     goodsUploadImg: path + '/goods/upload-img',
 	
-	
-	
-	
 		
 	 // order
    	orderList: path + '/order/list',
@@ -55,13 +50,16 @@ module.exports = {
     orderAdd: path + '/order/add',
     orderDeleteMulti: path + '/order/delete-multi',
 
-	
-	
-	
-	
-	
-	
-	
-	
-	
+
+    // parters
+    parterList: path + '/parter/list', //
+    parterAdd: path + '/parter/add',
+    parterDetail: path + '/parter/detail',
+    parterDelete: path + '/parter/delete',
+    parterDeleteMulti: path + '/parter/delete-multi',
+
+    // log
+    memberLog: path + '/member/logs', // 用户登陆日志
+    startLog: path + '/goods/logs', // 开始游戏记录
+    setStartLog: path + '/goods/logs/add' // 开始游戏记录
 };
