@@ -1,8 +1,8 @@
 {
-  "name": "front-end",
+  "name": "frontend",
   "description": "vue-admin",
   "version": "1.0.0",
-  "author": "cinoliu",
+  "author": "brian.netmad",
   "private": true,
   "scripts": {
     "dev": "cross-env NODE_ENV=development webpack-dev-server --open --colors",
