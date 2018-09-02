@@ -47,6 +47,15 @@
 		<el-form-item label="详情">
 			<el-input type="textarea" :rows="3" placeholder="请输入内容" v-model="form.goods_details"></el-input>
 		</el-form-item>
+		<el-form-item label="色阶">
+			<div class="el-col el-col-6 el-col-xs-12" style="padding-left: 6px; padding-right: 6px;">
+				<div class="demo-color-box" ref="bgColor" :style="{backgroundImage: '-webkit-linear-gradient(90deg, '+form.color2+', '+form.color1+')'}">
+					<span>{{form.color1}}-{{form.color2}}</span>
+				</div>
+			</div>
+			<el-color-picker v-model="form.color1"></el-color-picker>
+			<el-color-picker v-model="form.color2"></el-color-picker>
+		</el-form-item>
 		<el-form-item label="上传图片">
 			<el-upload
 				action="https://jsonplaceholder.typicode.com/posts/"
@@ -73,7 +82,7 @@ export default {
 
   data() {
     return {
-      isNew: 1, // 是否是添加
+			isNew: 1, // 是否是添加
       form: {
         goods_id: undefined,
         goods_name: "",
@@ -84,7 +93,9 @@ export default {
         inventory: 0,
         imgs: "",
         goods_type: "",
-        goods_typename: ""
+				goods_typename: "",
+				color1: '#000',
+				color2: '#FFF',
 			},
 			parterList: "",
       goodsTpyeList: "",
@@ -157,7 +168,18 @@ export default {
     }
 
 		this.goodsType();
-		this.queryParterList()
-  }
+		this.queryParterList();
+	}
 };
 </script>
+<style>
+	.demo-color-box {
+		border-radius: 4px;
+    padding: 20px;
+    margin: 5px 0;
+    height: 74px;
+    box-sizing: border-box;
+    color: #fff;
+    font-size: 14px;
+	}
+</style>

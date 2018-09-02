@@ -64,6 +64,8 @@ CREATE TABLE `goods` (
   `imgs` varchar(50) DEFAULT '',
   `onsale` tinyint(4) unsigned NOT NULL DEFAULT '0' COMMENT '是否上架',
   `goods_details` varchar(50) DEFAULT '' COMMENT '详情',
+  `color1` varchar(10) DEFAULT '#F4A0A0' COMMENT '色阶',
+  `color2` varchar(10) DEFAULT '#991717' COMMENT '色阶',
   PRIMARY KEY (`goods_id`),
   UNIQUE KEY `goods_id` (`goods_id`) USING BTREE
 ) ENGINE=InnoDB AUTO_INCREMENT=60 DEFAULT CHARSET=utf8;
