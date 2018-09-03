@@ -2,7 +2,7 @@ let sql = require('../sql/sql');
 let moment = require('moment');
 let func = require('../sql/func');
 let path = require('path');
-
+let request = reuqire('request');
 
 function formatData(rows) {
 	return rows.map(row => {
@@ -175,12 +175,27 @@ module.exports = {
 			});
 		});
 	},
+
 	memberLogin (req, res) {
-		res.json({
-			code: 200,
-			msg: 'ok'
-		});
+		request.psot({
+			url: 'https://api.weixin.qq.com/sns/jscode2session',
+			data: {
+				appid: 'wxc2c7a18556bae560',
+				secret: 'b9e31247ae9316d11a20a788f3f37ca5',
+				js_code: req.body.js_code,
+				grant_type: 'authorization_code'
+			}
+		}, (err, httpResponse, body) => {
+			let d = JSON.parse(body);
+			console.log(body);
+			res.json({
+				code: 200,
+				msg: 'ok',
+				data: body
+			});
+		});		
 	},
+
 	// 批量删除
 	deleteMulti(req, res) {
 		let member_id = req.body.member_id;
