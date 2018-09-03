@@ -1,5 +1,5 @@
-// let baseUrl = 'https://netmad.me/api';
-let baseUrl ='http://127.0.0.1:9000/api';
+let baseUrl = 'https://netmad.me/api';
+// let baseUrl ='http://127.0.0.1:9000/api';
 
 module.exports = {
    

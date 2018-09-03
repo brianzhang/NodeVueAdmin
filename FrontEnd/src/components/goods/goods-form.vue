@@ -58,9 +58,12 @@
 		</el-form-item>
 		<el-form-item label="上传图片">
 			<el-upload
-				action="https://jsonplaceholder.typicode.com/posts/"
+				action="https://netmad.me/upload"
 				list-type="picture-card"
+				name="smfile"
+				:data="{ssl: true, format: 'json'}"
 				:on-preview="handlePictureCardPreview"
+				:on-success="uploadSuccess"
 				:on-remove="handleRemove">
 				<i class="el-icon-plus"></i>
 			</el-upload>
@@ -118,7 +121,12 @@ export default {
         }
       });
     },
-
+		uploadSuccess (response, file, fileList) {
+			console.log(response);
+			if (response.code === 'success') {
+				this.form.imgs = response.data.url
+			}
+		},
     goodsType() {
       this.func.ajaxPost(this.api.goodsType, this.form, res => {
         if (res.data.code === 200) {
@@ -162,7 +170,8 @@ export default {
         },
         res => {
           this.form = res.data.resultList;
-          this.form.goods_id = res.data.resultList.goods_id;
+					this.form.goods_id = res.data.resultList.goods_id;
+					this.dialogImageUrl = this.from.imgs
         }
       );
     }
