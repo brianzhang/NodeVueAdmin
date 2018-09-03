@@ -2,7 +2,7 @@ let sql = require('../sql/sql');
 let moment = require('moment');
 let func = require('../sql/func');
 let path = require('path');
-let request = reuqire('request');
+let request = require('request');
 
 function formatData(rows) {
 	return rows.map(row => {
@@ -177,8 +177,8 @@ module.exports = {
 	},
 
 	memberLogin (req, res) {
-		request.psot({
-			url: 'https://api.weixin.qq.com/sns/jscode2session',
+		request.post({
+			url: 'https://api.weixin.qq.com/sns/oauth2/access_token',
 			data: {
 				appid: 'wxc2c7a18556bae560',
 				secret: 'b9e31247ae9316d11a20a788f3f37ca5',
