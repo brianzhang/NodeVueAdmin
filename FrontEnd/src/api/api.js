@@ -38,6 +38,7 @@ module.exports = {
 	goodsType:baseUrl + '/goods/fetchType',	
     goodsDetail: baseUrl + '/goods/detail',
     goodsDelete: baseUrl + '/goods/delete',
+    goodsAppIdCheck:baseUrl + '/goods/check',	
     goodsAdd: baseUrl + '/goods/add',
     goodsDeleteMulti: baseUrl + '/goods/delete-multi',
     goodsUploadImg: baseUrl + '/goods/upload-img',

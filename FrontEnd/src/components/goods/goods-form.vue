@@ -4,7 +4,7 @@
 				<el-input v-model="form.goods_name"></el-input>
 		</el-form-item>
 		<el-form-item label="小程序ID">
-			<el-input placeholder="请输入内容" v-model="form.app_id">
+			<el-input placeholder="请输入内容" v-model="form.app_id" @blur="blurCheck">
 				<template slot="append">APPID</template>
 			</el-input>
 		</el-form-item>
@@ -114,11 +114,20 @@ export default {
 			parterList: "",
       goodsTpyeList: "",
       dialogImageUrl: "",
-      dialogVisible: false
+			dialogVisible: false,
+			isSubmit: true
     };
   },
 
   methods: {
+		blurCheck () {
+			this.func.ajaxPost(this.api.goodsAppIdCheck, {app_id: this.form.app_id}, res => {
+        if (!res.data.check_status) {
+					this.$message.error("APP_ID已存在！");
+					this.isSubmit = false
+        }
+      });
+		},
     onSubmit() {
       if (!this.form.goods_name) {
         this.$message.warning("请填写完整信息");
