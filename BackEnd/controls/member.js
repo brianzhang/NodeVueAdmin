@@ -167,12 +167,12 @@ module.exports = {
 		});
 	},
 
-	memberLogin(req, res) {
+	memberLogin (req, res) {
 		request.post({
-			url: 'https://api.weixin.qq.com/sns/jscode2session',
+			url: 'https://api.weixin.qq.com/sns/oauth2/access_token',
 			data: {
-				appid: 'wxc2c7a18556bae560',
-				secret: 'b9e31247ae9316d11a20a788f3f37ca5',
+				appid: 'wx68cc8e322bb4dc02',
+				secret: 'bf54adc292ed6989be4e4fdceac05cdf',
 				js_code: req.body.js_code,
 				grant_type: 'authorization_code'
 			}
