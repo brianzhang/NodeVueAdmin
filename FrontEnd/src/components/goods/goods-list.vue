@@ -44,7 +44,7 @@
           <el-table-column prop="goods_name" width="120" label="商品名"></el-table-column>
 					<el-table-column prop="app_id" width="180" label="APPID"></el-table-column>
 			   <el-table-column label="分成">
-						<template slot-scope="scope">
+						<template scope="scope">
 								{{ scope.row.goods_price }}
 						</template>
 				</el-table-column>

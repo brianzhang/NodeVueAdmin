@@ -125,7 +125,7 @@ module.exports = {
 
 
 		let sql, arr;
-		arr = [goods_name, app_id, goods_price, inventory, goods_typename, parter_name, imgs, onsale, goods_details, color1, color2];
+		arr = [goods_name, app_id, goods_price, inventory, goods_typename, parter_name, imgs, onsale, goods_details, color1, color2, open_url];
 		if (goods_id) {
 			// 更新
 			sql = 'UPDATE goods SET goods_name=?, app_id=? ,goods_price=? ,inventory =? ,goods_typename =? ,parter_name=? ,imgs =?,onsale=?,goods_details =?, color1=?, color2=?, open_url=? WHERE goods_id=?';
