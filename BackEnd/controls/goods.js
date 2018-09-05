@@ -4,8 +4,6 @@ let func = require('../sql/func');
 let path = require('path');
 
 
-
-
 function formatData(rows) {
 	return rows.map(row => {
 		let date = moment(row.create_time).format('YYYY-MM-DD');
@@ -57,7 +55,7 @@ module.exports = {
 
 
 
-//商品类型
+	//商品类型
 
 	fetchType(req, res) {
 
@@ -117,25 +115,25 @@ module.exports = {
 		let goods_typename = req.body.goods_typename;
 		let parter_name = req.body.parter_name;
 		let inventory = req.body.inventory;
-		let color1 = req.body.color1
-		let color2 = req.body.color2
-		let imgs= req.body.imgs;	
-		let onsale= req.body.onsale;	
-		let goods_details= req.body.goods_details;
-		
+		let color1 = req.body.color1;
+		let color2 = req.body.color2;
+		let imgs = req.body.imgs;
+		let onsale = req.body.onsale;
+		let goods_details = req.body.goods_details;
+		let open_url = req.body.open_url;
 
-	
+
 		let sql, arr;
 		arr = [goods_name, app_id, goods_price, inventory, goods_typename, parter_name, imgs, onsale, goods_details, color1, color2];
 		if (goods_id) {
 			// 更新
-			sql = 'UPDATE goods SET goods_name=?, app_id=? ,goods_price=? ,inventory =? ,goods_typename =? ,parter_name=? ,imgs =?,onsale=?,goods_details =?, color1=?, color2=? WHERE goods_id=?';
+			sql = 'UPDATE goods SET goods_name=?, app_id=? ,goods_price=? ,inventory =? ,goods_typename =? ,parter_name=? ,imgs =?,onsale=?,goods_details =?, color1=?, color2=?, open_url=? WHERE goods_id=?';
 			arr.push(goods_id);
 		} else {
 			// 新增
-			sql = 'INSERT INTO goods(goods_name, app_id, goods_price, inventory, goods_typename, parter_name, imgs, onsale, goods_details, color1, color2) VALUES(?,?,?,?,?,?,?,?,?,?,?)';
+			sql = 'INSERT INTO goods(goods_name, app_id, goods_price, inventory, goods_typename, parter_name, imgs, onsale, goods_details, color1, color2, open_url) VALUES(?,?,?,?,?,?,?,?,?,?,?,?)';
 		}
-		
+
 		func.connPool(sql, arr, (err, rows) => {
 			res.json({
 				code: 200,
@@ -176,7 +174,9 @@ module.exports = {
 		let goods_id = req.body.goods_id;
 
 		let sql = 'DELETE  from goods WHERE goods_id in ?';
-		let arr = [[goods_id]];
+		let arr = [
+			[goods_id]
+		];
 
 		func.connPool(sql, arr, (err, rows) => {
 			res.json({
@@ -208,22 +208,22 @@ module.exports = {
 	},
 
 	// 查询游戏启动日志
-	startLog (req, res) {
-		let cur_page =req.body.cur_page;
-    let goods_id =req.body.goods_id;
-    let sql, arr ,endLimit ,startLimit;
+	startLog(req, res) {
+		let cur_page = req.body.cur_page;
+		let goods_id = req.body.goods_id;
+		let sql, arr, endLimit, startLimit;
 
-    endLimit = cur_page *10;
-    startLimit =  endLimit -10;
-    
-    if(goods_id){
-      sql ='select * from run_logs where goods_id =? ';
-      arr = [goods_id];  
-    }else{
-      sql ='select * from run_logs limit ?, ?';
-      arr = [startLimit, endLimit];
-    }
-    func.connPool(sql, arr, (err, rows) => {
+		endLimit = cur_page * 10;
+		startLimit = endLimit - 10;
+
+		if (goods_id) {
+			sql = 'select * from run_logs where goods_id =? ';
+			arr = [goods_id];
+		} else {
+			sql = 'select * from run_logs limit ?, ?';
+			arr = [startLimit, endLimit];
+		}
+		func.connPool(sql, arr, (err, rows) => {
 			rows = formatData(rows);
 			res.json({
 				code: 200,
@@ -233,7 +233,7 @@ module.exports = {
 		});
 	},
 
-	setStartLog (req, res) {
+	setStartLog(req, res) {
 		let goods_id = req.body.goods_id;
 		let members_id = req.body.members_id
 		let sql, arr;

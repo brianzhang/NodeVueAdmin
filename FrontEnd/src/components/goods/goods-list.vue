@@ -1,14 +1,12 @@
 <template>
     <div class="admin-list">		
-<div style="margin-bottom:30px">	
-	<el-breadcrumb separator="/">
-  <el-breadcrumb-item :to="{ path: '/' }">首页</el-breadcrumb-item>
-  <el-breadcrumb-item>游戏管理</el-breadcrumb-item>
-  <el-breadcrumb-item>游戏列表</el-breadcrumb-item>
- 
-</el-breadcrumb>	
-		
-	</div>		
+			<div style="margin-bottom:30px">	
+				<el-breadcrumb separator="/">
+				<el-breadcrumb-item :to="{ path: '/' }">首页</el-breadcrumb-item>
+				<el-breadcrumb-item>游戏管理</el-breadcrumb-item>
+				<el-breadcrumb-item>游戏列表</el-breadcrumb-item>			
+			</el-breadcrumb>				
+			</div>		
 		
 		
 <el-form :inline="true"  class="demo-form-inline">
@@ -38,23 +36,21 @@
             <el-table-column
                 type="selection">
             </el-table-column>
-
-            <el-table-column
-                prop="goods_name"
-                label="商品名">
-            </el-table-column>
-
-					<el-table-column prop="app_id" label="APPID"></el-table-column>
-			   <el-table-column label="分成">
+					<el-table-column label="图标" width="75" >
 						<template scope="scope">
+								<img :src="scope.row.imgs" style="width: 38px; height: 38px;"/>
+						</template>
+					</el-table-column>
+          <el-table-column prop="goods_name" width="120" label="商品名"></el-table-column>
+					<el-table-column prop="app_id" width="180" label="APPID"></el-table-column>
+			   <el-table-column label="分成">
+						<template slot-scope="scope">
 								{{ scope.row.goods_price }}
 						</template>
 				</el-table-column>
 				<el-table-column prop="goods_typename" label="类型"></el-table-column>
-				<el-table-column prop="parter_name" label="合作商"></el-table-column>
-				<el-table-column prop="run_count" label="启动次数"></el-table-column>
-				<el-table-column prop="goods_details" label="详情"></el-table-column>
-
+				<el-table-column prop="parter_name" label="合作商" width="120"></el-table-column>
+				<el-table-column prop="run_count" label="启动次数" width="100"></el-table-column>
 
 
 <el-table-column width="160" label="添加日期">
@@ -67,7 +63,7 @@
 
 
 
-<el-table-column label="操作" width="300">
+<el-table-column label="操作" width="160">
 	<template scope="scope">
                     <el-button
                         size="small"
@@ -93,87 +89,78 @@
 </template>
 
 <script>
-	export default {
-		name: 'list',
-		data() {
-			return {
-				tableData: [],
-				cur_page: 1,
-				goods_name: '',
+export default {
+  name: "list",
+  data() {
+    return {
+      tableData: [],
+      cur_page: 1,
+      goods_name: "",
 
-				multipleSelection: [],
+      multipleSelection: [],
 
-				load: false, // loading
-			}
-		},
+      load: false // loading
+    };
+  },
 
-		methods: {
+  methods: {
+    fetchList() {
+      this.load = true;
+      var reqParams = {
+        goods_name: this.goods_name,
+        cur_page: this.cur_page
+      };
 
-			fetchList() {
+      this.func.ajaxPost(this.api.goodsList, reqParams, res => {
+        this.tableData = res.data.resultList;
+        this.load = false;
+      });
+    },
 
-				this.load = true;
-				var reqParams = {
-					goods_name: this.goods_name,
-					cur_page: this.cur_page,
+    //分页
+    handleCurrentChange(val) {
+      this.cur_page = val;
+      this.fetchList();
+    },
 
-				};
+    //搜索
+    search() {
+      this.fetchList();
+    },
+    // 删除
+    handleDelete(row) {
+      this.func.ajaxPost(
+        this.api.goodsDelete,
+        {
+          goods_id: row.goods_id
+        },
+        res => {
+          if (res.data.code === 200) {
+            let index = this.tableData.indexOf(row);
+            this.tableData.splice(index, 1);
+            this.$message.success("删除成功");
+          }
+        }
+      );
+    },
 
-				this.func.ajaxPost(this.api.goodsList, reqParams, res => {
-					this.tableData = res.data.resultList;
-					this.load = false;
-				});
+    // 修改
+    editGoods(row) {
+      this.$router.push({
+        path: "/admin/goods-form",
+        query: {
+          goods_id: row.goods_id
+        }
+      });
+    },
 
+    handleSelectionChange(val) {
+      this.multipleSelection = val;
+    }
+  },
 
-			},
-
-			//分页
-			handleCurrentChange(val) {
-				this.cur_page = val;
-				this.fetchList();
-			},
-
-			//搜索
-			search() {
-
-				this.fetchList();
-			},
-			// 删除
-			handleDelete(row) {
-				this.func.ajaxPost(this.api.goodsDelete, {
-					goods_id: row.goods_id
-				}, res => {
-					if (res.data.code === 200) {
-						let index = this.tableData.indexOf(row);
-						this.tableData.splice(index, 1);
-						this.$message.success('删除成功');
-					}
-				});
-			},
-
-
-			// 修改
-			editGoods(row) {
-				this.$router.push({
-					path: '/admin/goods-form',
-					query: {
-						goods_id: row.goods_id
-					}
-				});
-			},
-
-
-			handleSelectionChange(val) {
-				this.multipleSelection = val;
-			}
-		},
-
-
-		created() {
-			this.fetchList();
-		},
-
-
-
-	}
-
+  created() {
+    this.fetchList();
+  }
+};
 </script>

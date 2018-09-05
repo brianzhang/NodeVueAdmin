@@ -8,6 +8,9 @@
 				<template slot="append">APPID</template>
 			</el-input>
 		</el-form-item>
+		<el-form-item label="统计地址">
+				<el-input v-model="form.open_url"></el-input>
+		</el-form-item>
 		<el-form-item label="合作商">	  
 			<el-select v-model="form.parter_name" placeholder="请选择游戏合作商">
 				<el-option
@@ -29,7 +32,7 @@
 		</el-form-item>
 
 		<el-form-item label="游戏类型">	  
-			<el-select v-model="form.goods_typename" placeholder="请选择游戏类型">
+			<el-select v-model="form.goods_typename" multiple collapse-tags placeholder="请选择游戏类型">
 				<el-option
 					v-for="item in goodsTpyeList"
 					:key="item.goods_typename"
@@ -96,9 +99,10 @@ export default {
         inventory: 0,
         imgs: "",
         goods_type: "",
-				goods_typename: "",
+				goods_typename: [],
 				color1: '#000',
 				color2: '#FFF',
+				open_url: ''
 			},
 			parterList: "",
       goodsTpyeList: "",
@@ -113,7 +117,7 @@ export default {
         this.$message.warning("请填写完整信息");
         return;
       }
-
+			this.form.goods_typename = this.form.goods_typename.join(' ')
       this.func.ajaxPost(this.api.goodsAdd, this.form, res => {
         if (res.data.code === 200) {
           this.$message.success("操作成功");
@@ -169,7 +173,8 @@ export default {
           goods_id
         },
         res => {
-          this.form = res.data.resultList;
+					this.form = res.data.resultList;
+					this.form.goods_typename = this.form.goods_typename.split(' ')
 					this.form.goods_id = res.data.resultList.goods_id;
 					this.dialogImageUrl = this.from.imgs
         }
