@@ -43,10 +43,10 @@
 					</el-table-column>
           <el-table-column prop="goods_name" width="120" label="商品名"></el-table-column>
 					<el-table-column prop="app_id" width="180" label="APPID"></el-table-column>
-			   <el-table-column label="分成">
-						<template slot-scope="scope">
-								{{ scope.row.goods_price }}
-						</template>
+                                <el-table-column label="分成">
+				<template scope="scope">
+				  {{ scope.row.goods_price }}
+				</template>
 				</el-table-column>
 				<el-table-column prop="goods_typename" label="类型"></el-table-column>
 				<el-table-column prop="parter_name" label="合作商" width="120"></el-table-column>
