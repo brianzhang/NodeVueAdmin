@@ -7,11 +7,11 @@ module.exports = {
         pool.getConnection((err, conn) => {
             let q = conn.query(sql, val, (err, rows) => {
                 if (err) {
-                    console.log(err);
+                    console.log('ERROR: ', err);
                 }
                 cb(err, rows);
 
-                conn.release();
+                conn.end();
             });
         });
     },
