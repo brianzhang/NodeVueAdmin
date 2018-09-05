@@ -11,7 +11,7 @@ module.exports = {
                 }
                 cb(err, rows);
 
-                conn.end();
+                conn.release();
             });
         });
     },
