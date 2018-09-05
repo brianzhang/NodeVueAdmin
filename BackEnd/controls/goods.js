@@ -21,10 +21,8 @@ module.exports = {
 	fetchAll(req, res) {
 		let cur_page = req.body.cur_page;
 		let goods_name = req.body.goods_name;
+                let onsale = req.body.onsale;
 		let sql, arr, endLimit, startLimit;
-
-		console.log(req.body.cur_page);
-
 
 		endLimit = cur_page * 10;
 		startLimit = endLimit - 10;
@@ -33,7 +31,10 @@ module.exports = {
 			sql = 'select * from goods where goods_name =?';
 			arr = [goods_name];
 
-		} else {
+		} else if (onsale) {
+ 		  sql = 'select * from goods  where onsale=? limit ?, ?'
+                  arr = [onsale, startLimit, endLimit];
+                } else {
 
 			sql = 'select * from goods  limit ?, ?';
 			arr = [startLimit, endLimit];
