@@ -19,26 +19,21 @@ module.exports = {
 	fetchAll(req, res) {
 		let cur_page = req.body.cur_page;
 		let goods_name = req.body.goods_name;
-                let onsale = req.body.onsale;
+		let onsale = req.body.onsale;
 		let sql, arr, endLimit, startLimit;
 
 		endLimit = cur_page * 10;
 		startLimit = endLimit - 10;
 		if (goods_name) {
-
 			sql = 'select * from goods where goods_name =?';
 			arr = [goods_name];
-
 		} else if (onsale) {
- 		  sql = 'select * from goods  where onsale=? limit ?, ?'
-                  arr = [onsale, startLimit, endLimit];
-                } else {
-
-			sql = 'select * from goods  limit ?, ?';
+			sql = 'select * from goods where onsale=? limit ?, ?';
+			arr = [onsale, startLimit, endLimit];
+		} else {
+			sql = 'select * from goods ORDER BY goods_id DESC limit ?, ?';
 			arr = [startLimit, endLimit];
 		}
-
-
 
 		func.connPool(sql, arr, (err, rows) => {
 			rows = formatData(rows);
@@ -49,8 +44,6 @@ module.exports = {
 			});
 
 		});
-
-
 	},
 
 
@@ -60,7 +53,7 @@ module.exports = {
 
 	fetchType(req, res) {
 
-		let sql = 'select * from goodstype  ';
+		let sql = 'select * from goodstype';
 
 		func.connPool(sql, (err, rows) => {
 			rows = formatData(rows);
@@ -69,15 +62,8 @@ module.exports = {
 				msg: 'ok',
 				resultList: rows
 			});
-
 		});
-
-
-
 	},
-
-
-
 
 
 
@@ -98,13 +84,24 @@ module.exports = {
 				resultList: rows[0]
 			});
 		});
-
-
 	},
 
 
+	fetchByAppId(req, res) {
+		let app_id = req.body.app_id;
 
+		let sql = 'select * from goods WHERE app_id = ?';
+		let arr = [app_id];
 
+		func.connPool(sql, arr, (err, rows) => {
+			rows = formatData(rows);
+			res.json({
+				code: 200,
+				msg: 'ok',
+				check_status: rows.length >= 0 ? false : true
+			});
+		});
+	},
 
 	// 添加|更新 商品
 	addOne(req, res) {
@@ -122,24 +119,31 @@ module.exports = {
 		let onsale = req.body.onsale;
 		let goods_details = req.body.goods_details;
 		let open_url = req.body.open_url;
-
+		let recommend = req.bodu.recommend
 
 		let sql, arr;
-		arr = [goods_name, app_id, goods_price, inventory, goods_typename, parter_name, imgs, onsale, goods_details, color1, color2, open_url];
+		arr = [goods_name, app_id, goods_price, inventory, goods_typename, parter_name, imgs, onsale, goods_details, color1, color2, open_url, recommend];
 		if (goods_id) {
 			// 更新
-			sql = 'UPDATE goods SET goods_name=?, app_id=? ,goods_price=? ,inventory =? ,goods_typename =? ,parter_name=? ,imgs =?,onsale=?,goods_details =?, color1=?, color2=?, open_url=? WHERE goods_id=?';
+			sql = 'UPDATE goods SET goods_name=?, app_id=? ,goods_price=? ,inventory =? ,goods_typename =? ,parter_name=? ,imgs =?,onsale=?,goods_details =?, color1=?, color2=?, open_url=?, recommend=? WHERE goods_id=?';
 			arr.push(goods_id);
 		} else {
 			// 新增
-			sql = 'INSERT INTO goods(goods_name, app_id, goods_price, inventory, goods_typename, parter_name, imgs, onsale, goods_details, color1, color2, open_url) VALUES(?,?,?,?,?,?,?,?,?,?,?,?)';
+			sql = 'INSERT INTO goods(goods_name, app_id, goods_price, inventory, goods_typename, parter_name, imgs, onsale, goods_details, color1, color2, open_url, recommend) VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?)';
 		}
 
 		func.connPool(sql, arr, (err, rows) => {
-			res.json({
-				code: 200,
-				msg: 'done'
-			});
+			if (err) {
+				res.json({
+					code: 300,
+					msg: '数据库操作失败'
+				});
+			} else {
+				res.json({
+					code: 200,
+					msg: 'done'
+				});
+			}
 		});
 
 

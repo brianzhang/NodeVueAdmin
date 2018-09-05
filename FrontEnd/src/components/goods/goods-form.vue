@@ -47,6 +47,12 @@
 				<el-radio :label="1">上架</el-radio>
 			</el-radio-group>
 		</el-form-item>
+		<el-form-item label="是否推荐">
+			<el-radio-group v-model="form.recommend">
+				<el-radio :label="0">否</el-radio>
+				<el-radio :label="1">是</el-radio>
+			</el-radio-group>
+		</el-form-item>
 		<el-form-item label="详情">
 			<el-input type="textarea" :rows="3" placeholder="请输入内容" v-model="form.goods_details"></el-input>
 		</el-form-item>
@@ -102,7 +108,8 @@ export default {
 				goods_typename: [],
 				color1: '#000',
 				color2: '#FFF',
-				open_url: ''
+				open_url: '',
+				recommend: 0
 			},
 			parterList: "",
       goodsTpyeList: "",
@@ -189,7 +196,7 @@ export default {
 <style>
 	.demo-color-box {
 		border-radius: 4px;
-    padding: 20px;
+    padding: 5px 10px;
     margin: 5px 0;
     height: 74px;
     box-sizing: border-box;
