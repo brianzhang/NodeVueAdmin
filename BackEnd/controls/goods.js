@@ -119,7 +119,7 @@ module.exports = {
 		let onsale = req.body.onsale;
 		let goods_details = req.body.goods_details;
 		let open_url = req.body.open_url;
-		let recommend = req.bodu.recommend
+		let recommend = req.body.recommend
 
 		let sql, arr;
 		arr = [goods_name, app_id, goods_price, inventory, goods_typename, parter_name, imgs, onsale, goods_details, color1, color2, open_url, recommend];
