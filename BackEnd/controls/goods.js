@@ -22,8 +22,8 @@ module.exports = {
 		let onsale = req.body.onsale;
 		let sql, arr, endLimit, startLimit;
 
-		endLimit = cur_page * 10;
-		startLimit = endLimit - 10;
+		endLimit = cur_page * 20;
+		startLimit = endLimit - 20;
 		if (goods_name) {
 			sql = 'select * from goods where goods_name =?';
 			arr = [goods_name];
