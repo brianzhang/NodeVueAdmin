@@ -68,6 +68,7 @@ CREATE TABLE `goods` (
   `color2` varchar(10) DEFAULT '#991717' COMMENT '色阶',
   `open_url` varchar(500) DEFAULT '' COMMENT '统计地址',
   `recommend` BOOLEAN DEFAULT 0 COMMENT '是否推荐',
+  `qr_url` varchar(200) DEFAULT '' COMMENT '统计地址',
   PRIMARY KEY (`goods_id`),
   UNIQUE KEY `goods_id` (`goods_id`) USING BTREE
 ) ENGINE=InnoDB AUTO_INCREMENT=60 DEFAULT CHARSET=utf8;

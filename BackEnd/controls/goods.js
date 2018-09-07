@@ -120,16 +120,17 @@ module.exports = {
 		let goods_details = req.body.goods_details;
 		let open_url = req.body.open_url;
 		let recommend = req.body.recommend
+		let qr_url = req.body.qr_url
 
 		let sql, arr;
-		arr = [goods_name, app_id, goods_price, inventory, goods_typename, parter_name, imgs, onsale, goods_details, color1, color2, open_url, recommend];
+		arr = [goods_name, app_id, goods_price, inventory, goods_typename, parter_name, imgs, onsale, goods_details, color1, color2, open_url, recommend, qr_url];
 		if (goods_id) {
 			// 更新
-			sql = 'UPDATE goods SET goods_name=?, app_id=? ,goods_price=? ,inventory =? ,goods_typename =? ,parter_name=? ,imgs =?,onsale=?,goods_details =?, color1=?, color2=?, open_url=?, recommend=? WHERE goods_id=?';
+			sql = 'UPDATE goods SET goods_name=?, app_id=? ,goods_price=? ,inventory =? ,goods_typename =? ,parter_name=? ,imgs =?,onsale=?,goods_details =?, color1=?, color2=?, open_url=?, recommend=?, qr_url=? WHERE goods_id=?';
 			arr.push(goods_id);
 		} else {
 			// 新增
-			sql = 'INSERT INTO goods(goods_name, app_id, goods_price, inventory, goods_typename, parter_name, imgs, onsale, goods_details, color1, color2, open_url, recommend) VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?)';
+			sql = 'INSERT INTO goods(goods_name, app_id, goods_price, inventory, goods_typename, parter_name, imgs, onsale, goods_details, color1, color2, open_url, recommend, qr_url) VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?)';
 		}
 
 		func.connPool(sql, arr, (err, rows) => {

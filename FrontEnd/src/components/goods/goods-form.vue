@@ -65,7 +65,7 @@
 			<el-color-picker v-model="form.color1"></el-color-picker>
 			<el-color-picker v-model="form.color2"></el-color-picker>
 		</el-form-item>
-		<el-form-item label="上传图片">
+		<el-form-item label="上传ICON">
 			<el-upload
 				action="https://netmad.me/upload"
 				list-type="picture-card"
@@ -80,6 +80,23 @@
 				<img width="100%" :src="dialogImageUrl" alt="">
 			</el-dialog>
 		</el-form-item>
+
+		<el-form-item label="上传小程序二维码">
+			<el-upload
+				action="https://netmad.me/upload"
+				list-type="picture-card"
+				name="smfile"
+				:data="{ssl: true, format: 'json'}"
+				:on-preview="handlePictureCardQRPreview"
+				:on-success="uploadQRSuccess"
+				:on-remove="handleQRRemove">
+				<i class="el-icon-plus"></i>
+			</el-upload>
+			<el-dialog v-model="dialogVisible" size="tiny">
+				<img width="100%" :src="qrImageUrl" alt="">
+			</el-dialog>
+		</el-form-item>
+
 		<el-form-item>
 			<el-button type="primary" @click="onSubmit">{{isNew ? '添加' : '修改'}}</el-button>
 			<el-button @click="onCancel">取消</el-button>
@@ -109,11 +126,13 @@ export default {
 				color1: '#000',
 				color2: '#FFF',
 				open_url: '',
-				recommend: 0
+				recommend: 0,
+				qr_url: ''
 			},
 			parterList: "",
       goodsTpyeList: "",
-      dialogImageUrl: "",
+			dialogImageUrl: "",
+			qrImageUrl: '',
 			dialogVisible: false,
 			isSubmit: true
     };
@@ -147,6 +166,11 @@ export default {
 				this.form.imgs = response.data.url
 			}
 		},
+		uploadQRSuccess (response, file, fileList) {
+			if (response.code === 'success') {
+				this.form.qr_url = response.data.url
+			}
+		},
     goodsType() {
       this.func.ajaxPost(this.api.goodsType, this.form, res => {
         if (res.data.code === 200) {
@@ -169,11 +193,17 @@ export default {
 
     handleRemove(file, fileList) {
       console.log(file, fileList);
+		},
+		handleQRRemove(file, fileList) {
+      console.log(file, fileList);
     },
     handlePictureCardPreview(file) {
       this.dialogImageUrl = file.url;
       this.form.imgs = file.url;
-      //       this.dialogVisible = true;
+		},
+		handlePictureCardQRPreview(file) {
+      this.qrImageUrl = file.url;
+      this.form.qr_url = file.url;
     }
   },
 
