@@ -222,7 +222,9 @@ export default {
 					this.form = res.data.resultList;
 					this.form.goods_typename = this.form.goods_typename.split(' ')
 					this.form.goods_id = res.data.resultList.goods_id;
+					
 					this.dialogImageUrl = this.from.imgs
+					this.qrImageUrl = this.from.qr_url
         }
       );
     }
